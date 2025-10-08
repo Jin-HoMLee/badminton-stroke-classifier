@@ -110,3 +110,94 @@ There is no constraint between runs to have the same metadata tracked. I.e. for 
 - metrics.. should be numeric values as these can get plotted
 
 ![mlflow metadata](images/3_metadata.png)
+
+
+## BST
+
+For all following steps move into the BST submodule: 
+
+```bash 
+cd submodule_bst
+```
+
+### Setup
+
+```bash
+make setup
+``` 
+
+### Data for Inference Test
+
+1. Download `dataset_npy_between_2_hits_with_max_limits.rar` from https://drive.usercontent.google.com/download?id=1k_6yFUh3xgF6emSyWc-qcTvf_0cRghzq&export=download&authuser=0
+
+2. Unrar to `dataset_npy_between_2_hits_with_max_limits` 
+
+3. Inside `stroke_classification/preparing_data`, create folder `ShuttleSet_data_merged`
+
+4. Inside `ShuttleSet_data_merged`, place folder `dataset_npy_between_2_hits_with_max_limits` 
+
+The final folder structure is `stroke_classification/preparing_data/ShuttleSet_data_merged/dataset_npy_between_2_hits_with_max_limits`. 
+
+### Model Weights
+
+1. Search and download `bst_CG_AP_JnB_bone_between_2_hits_with_max_limits_seq_100_merged_2.pt` from https://drive.google.com/drive/folders/1D4172WZDJWPvpJdpaHDhy_cA-s8F-zR5
+
+2. Inside `stroke_classification`, create folder `weight`
+
+3. Inside `weight`, place file `bst_CG_AP_JnB_bone_between_2_hits_with_max_limits_seq_100_merged_2.pt`
+
+The final folder/file structure is `stroke_classification/weight/bst_CG_AP_JnB_bone_between_2_hits_with_max_limits_seq_100_merged_2.pt`
+
+### Run Inference Test
+
+1. Move inside `stroke_classification` with: 
+```bash
+cd stroke_classification
+``` 
+2. Then run: 
+```bash
+python main_on_shuttleset/bst_infer.py
+``` 
+
+The original `bst_infer.py` just printed the raw classes. I changed the original script to output evaluation results (same metrics as in publication) like the following: 
+
+```bash
+==================================================
+EVALUATION RESULTS
+==================================================
+Accuracy:      0.8377 (83.77%)
+Macro-F1:      0.8209
+Min-F1:        0.6108
+Top-2 Accuracy: 0.9617 (96.17%)
+==================================================
+Total samples: 3499
+Correct predictions: 2931
+Wrong predictions: 568
+
+Per-class F1 scores:
+ 0. 未知球種                 F1: 0.8355
+ 1. Top_放小球              F1: 0.8750
+ 2. Top_擋小球              F1: 0.7904
+ 3. Top_殺球               F1: 0.8819
+ 4. Top_挑球               F1: 0.8238
+ 5. Top_長球               F1: 0.9624
+ 6. Top_平球               F1: 0.6108
+ 7. Top_切球               F1: 0.8516
+ 8. Top_推球               F1: 0.6930
+ 9. Top_撲球               F1: 0.7619
+10. Top_勾球               F1: 0.6465
+11. Top_發短球              F1: 0.9348
+12. Top_發長球              F1: 0.9130
+13. Bottom_放小球           F1: 0.8597
+14. Bottom_擋小球           F1: 0.7758
+15. Bottom_殺球            F1: 0.9011
+16. Bottom_挑球            F1: 0.8097
+17. Bottom_長球            F1: 0.9869
+18. Bottom_平球            F1: 0.6766
+19. Bottom_切球            F1: 0.8597
+20. Bottom_推球            F1: 0.7099
+21. Bottom_撲球            F1: 0.7586
+22. Bottom_勾球            F1: 0.7107
+23. Bottom_發短球           F1: 0.9712
+24. Bottom_發長球           F1: 0.9231
+``` 
