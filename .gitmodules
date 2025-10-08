@@ -1,0 +1,3 @@
+[submodule "submodule_bst"]
+	path = submodule_bst
+	url = git@github.com:Jin-HoMLee/BST-Badminton-Stroke-type-Transformer.git
